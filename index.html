@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3D Rotating Cube</title>
+  <style>
+    #container {
+      width: 400px;
+      height: 400px;
+      perspective: 800px;
+      margin: 50px auto;
+    }
+
+    #cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg) rotateY(0deg);
+      transition: transform 0.5s;
+    }
+
+    .face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+      opacity: 0.8;
+    }
+
+    .front {
+      background-color: #FF4136;
+      transform: translateZ(100px);
+    }
+
+    .back {
+      background-color: #FFDC00;
+      transform: translateZ(-100px) rotateY(180deg);
+    }
+
+    .left {
+      background-color: #0074D9;
+      transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .right {
+      background-color: #2ECC40;
+      transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .top {
+      background-color: #FF851B;
+      transform: rotateX(90deg) translateZ(100px);
+    }
+
+    .bottom {
+      background-color: #B10DC9;
+      transform: rotateX(-90deg) translateZ(100px);
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="cube">
+      <div class="face front"></div>
+      <div class="face back"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+    </div>
+  </div>
+
+  <script>
+    var container = document.getElementById('container');
+    var cube = document.getElementById('cube');
+    var xAngle = 0;
+    var yAngle = 0;
+
+    document.addEventListener('keydown', function(event) {
+      switch(event.keyCode) {
+        case 37: // Left arrow
+          yAngle -= 90;
+          break;
+        case 38: // Up arrow
+          xAngle += 90;
+          break;
+        case 39: // Right arrow
+          yAngle += 90;
+          break;
+        case 40: // Down arrow
+          xAngle -= 90;
+          break;
+      };
+
+      cube.style.transform = "rotateX("+xAngle+"deg) rotateY("+yAngle+"deg)";
+    });
+
+    var dragging = false;
+    var lastClientX;
+    var lastClientY;
+
+    container.addEventListener('mousedown', function(event) {
+      event.preventDefault();
+      dragging = true;
+      lastClientX = event.clientX;
+      lastClientY = event.clientY;
+    });
+
+    container.addEventListener('mousemove', function(event) {
+      if (dragging) {
+        var deltaX = event.clientX - lastClientX;
+        var deltaY = event.clientY - lastClientY;
+
+        yAngle += deltaX * 0.5;
+        xAngle -= deltaY * 0.5;
+
+        cube.style.transform = "rotateX("+xAngle+"deg) rotateY("+yAngle+"deg)";
+
+        lastClientX = event.clientX;
+        lastClientY = event.clientY;
+      }
+    });
+
+    container.addEventListener('mouseup', function(event) {
+      dragging = false;
+    });
+  </script>
+</body>
+</html>
