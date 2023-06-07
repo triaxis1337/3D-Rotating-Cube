@@ -1,13 +1,17 @@
-const menuIcon = document.querySelector(".menu-icon");
-const menu = document.querySelector(".menu ul");
+function submitQuiz() {
+  var score = 0;
 
-menuIcon.addEventListener("click", () => {
-  menu.classList.toggle("responsive-menu");
-});
+  var q1 = document.querySelector('input[name="q1"]:checked');
+  var q2 = document.querySelector('input[name="q2"]:checked');
 
-function sendEmail() {
-    // Code to send an email goes here
-    // You can use a library like nodemailer or an API to handle email sending
-    alert('Email sent successfully!');
+  if (q1 && q1.value === "a") {
+    score++;
   }
-  
+
+  if (q2 && q2.value === "a") {
+    score++;
+  }
+
+  var resultElement = document.getElementById("result");
+  resultElement.textContent = "Your score is " + score + "/2";
+}
